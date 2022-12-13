@@ -1128,7 +1128,7 @@ knative.dev/control-protocol/pkg/certificates
 # knative.dev/hack v0.0.0-20221018223210-cf1a127cfdcd
 ## explicit; go 1.18
 knative.dev/hack
-# knative.dev/net-istio v0.35.0
+# knative.dev/net-istio v0.35.1
 ## explicit; go 1.18
 knative.dev/net-istio/config
 knative.dev/net-istio/pkg/client/istio/clientset/versioned
