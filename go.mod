@@ -7,15 +7,15 @@ require (
 	github.com/hashicorp/golang-lru v0.5.4
 	go.uber.org/zap v1.23.0
 	istio.io/api v0.0.0-20210713195055-3a340e4f154e
-	k8s.io/api v0.25.2
-	k8s.io/apimachinery v0.25.2
-	k8s.io/client-go v0.25.2
-	knative.dev/caching v0.0.0-20221012041550-ce26e9293067
-	knative.dev/hack v0.0.0-20221018223210-cf1a127cfdcd
+	k8s.io/api v0.25.4
+	k8s.io/apimachinery v0.25.4
+	k8s.io/client-go v0.25.4
+	knative.dev/caching v0.0.0-20230225001731-71041a310e84
+	knative.dev/hack v0.0.0-20230217102752-199139daec7e
 	knative.dev/net-istio v0.35.0
-	knative.dev/networking v0.0.0-20221012062251-58f3e6239b4f
-	knative.dev/pkg v0.0.0-20221014164553-b812affa3893
-	knative.dev/serving v0.35.0
+	knative.dev/networking v0.0.0-20230225001731-5e096d63b0cb
+	knative.dev/pkg v0.0.0-20230224205330-75da922ef055
+	knative.dev/serving v0.36.2
 )
 
 require (
@@ -109,12 +109,12 @@ require (
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20221010152910-d6f0a8c073c2 // indirect
 	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
-	golang.org/x/net v0.0.0-20221004154528-8021a29435af // indirect
+	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220909003341-f21342109be1 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
-	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
-	golang.org/x/term v0.0.0-20220526004731-065cf7ba2467 // indirect
-	golang.org/x/text v0.3.8 // indirect
+	golang.org/x/sys v0.5.0 // indirect
+	golang.org/x/term v0.5.0 // indirect
+	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858 // indirect
 	golang.org/x/tools v0.1.12 // indirect
 	gomodules.xyz/jsonpatch/v2 v2.2.0 // indirect
@@ -128,13 +128,13 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	istio.io/client-go v1.10.3 // indirect
 	istio.io/gogo-genproto v0.0.0-20210113155706-4daf5697332f // indirect
-	k8s.io/apiextensions-apiserver v0.25.2 // indirect
-	k8s.io/code-generator v0.25.2 // indirect
-	k8s.io/gengo v0.0.0-20220613173612-397b4ae3bce7 // indirect
-	k8s.io/klog/v2 v2.80.1 // indirect
+	k8s.io/apiextensions-apiserver v0.25.4 // indirect
+	k8s.io/code-generator v0.25.4 // indirect
+	k8s.io/gengo v0.0.0-20221011193443-fad74ee6edd9 // indirect
+	k8s.io/klog/v2 v2.80.2-0.20221028030830-9ae4992afb54 // indirect
 	k8s.io/kube-openapi v0.0.0-20220803162953-67bda5d908f1 // indirect
-	k8s.io/utils v0.0.0-20221012122500-cfd413dd9e85 // indirect
-	knative.dev/control-protocol v0.0.0-20221017021456-3e2f8785943b // indirect
+	k8s.io/utils v0.0.0-20221108210102-8e77b1f39fe2 // indirect
+	knative.dev/control-protocol v0.0.0-20230225001830-38d0f0c36190 // indirect
 	sigs.k8s.io/json v0.0.0-20220713155537-f223a00ba0e2 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.2.3 // indirect
 	sigs.k8s.io/yaml v1.3.0 // indirect

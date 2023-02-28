@@ -432,7 +432,7 @@ golang.org/x/crypto/pkcs12/internal/rc2
 golang.org/x/mod/internal/lazyregexp
 golang.org/x/mod/module
 golang.org/x/mod/semver
-# golang.org/x/net v0.0.0-20221004154528-8021a29435af
+# golang.org/x/net v0.7.0
 ## explicit; go 1.17
 golang.org/x/net/context
 golang.org/x/net/context/ctxhttp
@@ -456,17 +456,17 @@ golang.org/x/oauth2/jwt
 ## explicit
 golang.org/x/sync/errgroup
 golang.org/x/sync/semaphore
-# golang.org/x/sys v0.0.0-20221010170243-090e33056c14
+# golang.org/x/sys v0.5.0
 ## explicit; go 1.17
 golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/plan9
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/term v0.0.0-20220526004731-065cf7ba2467
+# golang.org/x/term v0.5.0
 ## explicit; go 1.17
 golang.org/x/term
-# golang.org/x/text v0.3.8
+# golang.org/x/text v0.7.0
 ## explicit; go 1.17
 golang.org/x/text/cases
 golang.org/x/text/internal
@@ -631,7 +631,7 @@ istio.io/client-go/pkg/apis/networking/v1alpha3
 # istio.io/gogo-genproto v0.0.0-20210113155706-4daf5697332f
 ## explicit; go 1.15
 istio.io/gogo-genproto/googleapis/google/api
-# k8s.io/api v0.25.2
+# k8s.io/api v0.25.4
 ## explicit; go 1.19
 k8s.io/api/admission/v1
 k8s.io/api/admissionregistration/v1
@@ -680,7 +680,7 @@ k8s.io/api/scheduling/v1beta1
 k8s.io/api/storage/v1
 k8s.io/api/storage/v1alpha1
 k8s.io/api/storage/v1beta1
-# k8s.io/apiextensions-apiserver v0.25.2
+# k8s.io/apiextensions-apiserver v0.25.4
 ## explicit; go 1.19
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions
 k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
@@ -693,7 +693,7 @@ k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextension
 k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1
 k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset/typed/apiextensions/v1beta1/fake
 k8s.io/apiextensions-apiserver/pkg/client/listers/apiextensions/v1
-# k8s.io/apimachinery v0.25.2
+# k8s.io/apimachinery v0.25.4
 ## explicit; go 1.19
 k8s.io/apimachinery/pkg/api/equality
 k8s.io/apimachinery/pkg/api/errors
@@ -741,7 +741,7 @@ k8s.io/apimachinery/pkg/version
 k8s.io/apimachinery/pkg/watch
 k8s.io/apimachinery/third_party/forked/golang/json
 k8s.io/apimachinery/third_party/forked/golang/reflect
-# k8s.io/client-go v0.25.2
+# k8s.io/client-go v0.25.4
 ## explicit; go 1.19
 k8s.io/client-go/applyconfigurations/admissionregistration/v1
 k8s.io/client-go/applyconfigurations/admissionregistration/v1beta1
@@ -1022,7 +1022,7 @@ k8s.io/client-go/util/homedir
 k8s.io/client-go/util/keyutil
 k8s.io/client-go/util/retry
 k8s.io/client-go/util/workqueue
-# k8s.io/code-generator v0.25.2
+# k8s.io/code-generator v0.25.4
 ## explicit; go 1.19
 k8s.io/code-generator
 k8s.io/code-generator/cmd/client-gen
@@ -1057,7 +1057,7 @@ k8s.io/code-generator/cmd/set-gen
 k8s.io/code-generator/pkg/namer
 k8s.io/code-generator/pkg/util
 k8s.io/code-generator/third_party/forked/golang/reflect
-# k8s.io/gengo v0.0.0-20220613173612-397b4ae3bce7
+# k8s.io/gengo v0.0.0-20221011193443-fad74ee6edd9
 ## explicit; go 1.13
 k8s.io/gengo/args
 k8s.io/gengo/examples/deepcopy-gen/generators
@@ -1069,7 +1069,7 @@ k8s.io/gengo/generator
 k8s.io/gengo/namer
 k8s.io/gengo/parser
 k8s.io/gengo/types
-# k8s.io/klog/v2 v2.80.1
+# k8s.io/klog/v2 v2.80.2-0.20221028030830-9ae4992afb54
 ## explicit; go 1.13
 k8s.io/klog/v2
 k8s.io/klog/v2/internal/buffer
@@ -1093,7 +1093,7 @@ k8s.io/kube-openapi/pkg/spec3
 k8s.io/kube-openapi/pkg/util/proto
 k8s.io/kube-openapi/pkg/util/sets
 k8s.io/kube-openapi/pkg/validation/spec
-# k8s.io/utils v0.0.0-20221012122500-cfd413dd9e85
+# k8s.io/utils v0.0.0-20221108210102-8e77b1f39fe2
 ## explicit; go 1.18
 k8s.io/utils/buffer
 k8s.io/utils/clock
@@ -1106,7 +1106,7 @@ k8s.io/utils/net
 k8s.io/utils/pointer
 k8s.io/utils/strings/slices
 k8s.io/utils/trace
-# knative.dev/caching v0.0.0-20221012041550-ce26e9293067
+# knative.dev/caching v0.0.0-20230225001731-71041a310e84
 ## explicit; go 1.18
 knative.dev/caching/config
 knative.dev/caching/pkg/apis/caching
@@ -1122,10 +1122,10 @@ knative.dev/caching/pkg/client/injection/client
 knative.dev/caching/pkg/client/injection/informers/caching/v1alpha1/image
 knative.dev/caching/pkg/client/injection/informers/factory
 knative.dev/caching/pkg/client/listers/caching/v1alpha1
-# knative.dev/control-protocol v0.0.0-20221017021456-3e2f8785943b
+# knative.dev/control-protocol v0.0.0-20230225001830-38d0f0c36190
 ## explicit; go 1.18
 knative.dev/control-protocol/pkg/certificates
-# knative.dev/hack v0.0.0-20221018223210-cf1a127cfdcd
+# knative.dev/hack v0.0.0-20230217102752-199139daec7e
 ## explicit; go 1.18
 knative.dev/hack
 # knative.dev/net-istio v0.35.0
@@ -1154,7 +1154,7 @@ knative.dev/net-istio/pkg/reconciler/ingress/resources
 knative.dev/net-istio/pkg/reconciler/ingress/resources/names
 knative.dev/net-istio/pkg/reconciler/serverlessservice
 knative.dev/net-istio/pkg/reconciler/serverlessservice/resources
-# knative.dev/networking v0.0.0-20221012062251-58f3e6239b4f
+# knative.dev/networking v0.0.0-20230225001731-5e096d63b0cb
 ## explicit; go 1.18
 knative.dev/networking/config
 knative.dev/networking/pkg
@@ -1186,7 +1186,7 @@ knative.dev/networking/pkg/ingress
 knative.dev/networking/pkg/k8s
 knative.dev/networking/pkg/prober
 knative.dev/networking/pkg/status
-# knative.dev/pkg v0.0.0-20221014164553-b812affa3893
+# knative.dev/pkg v0.0.0-20230224205330-75da922ef055
 ## explicit; go 1.18
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
@@ -1266,7 +1266,7 @@ knative.dev/pkg/webhook/resourcesemantics/defaulting
 knative.dev/pkg/webhook/resourcesemantics/validation
 knative.dev/pkg/webhook/testing
 knative.dev/pkg/websocket
-# knative.dev/serving v0.35.0
+# knative.dev/serving v0.36.2
 ## explicit; go 1.18
 knative.dev/serving/cmd/activator
 knative.dev/serving/cmd/autoscaler
