@@ -12,6 +12,9 @@ before:
 builds:
   - skip: true
 
+changelog:
+  use: github-native
+
 release:
   draft: true
   extra_files:
