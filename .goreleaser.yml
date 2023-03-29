@@ -14,9 +14,6 @@ builds:
 
 release:
   draft: true
-  github:
-    owner: cpanato
-    name: hakn
   extra_files:
     - glob: "./serving.yaml"
       name_template: serving.yaml

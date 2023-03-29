@@ -31,9 +31,14 @@ ko-local:
 ##########
 # release
 ##########
+
 .PHONY: build-sign-image
 build-sign-image: ko
 	./hack/sign-images.sh
+
+.PHONY: goreleaser
+goreleaser:
+	goreleaser release --clean
 
 ##################
 # help
