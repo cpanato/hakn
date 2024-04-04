@@ -11,7 +11,7 @@ replace (
 )
 
 require (
-	github.com/google/go-cmp v0.5.9
+	github.com/google/go-cmp v0.6.0
 	github.com/hashicorp/golang-lru v0.6.0
 	go.uber.org/zap v1.24.0
 	istio.io/api v0.0.0-20230204131218-41d7951eb9e4
