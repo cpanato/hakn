@@ -149,7 +149,7 @@ func makeIngressSpec(
 				return netv1alpha1.IngressSpec{}, err
 			}
 			rule := makeIngressRule(domains, r.Namespace,
-				visibility, tc.Targets[name], ro.RolloutsByTag(name), networkConfig.InternalEncryption)
+				visibility, tc.Targets[name], ro.RolloutsByTag(name), networkConfig.SystemInternalTLSEnabled())
 			if featuresConfig.TagHeaderBasedRouting == apicfg.Enabled {
 				if rule.HTTP.Paths[0].AppendHeaders == nil {
 					rule.HTTP.Paths[0].AppendHeaders = make(map[string]string, 1)
@@ -171,7 +171,7 @@ func makeIngressSpec(
 					// Since names are sorted `DefaultTarget == ""` is the first one,
 					// so just pass the subslice.
 					rule.HTTP.Paths = append(
-						makeTagBasedRoutingIngressPaths(r.Namespace, tc, ro, networkConfig.InternalEncryption, names[1:]), rule.HTTP.Paths...)
+						makeTagBasedRoutingIngressPaths(r.Namespace, tc, ro, networkConfig.SystemInternalTLSEnabled(), names[1:]), rule.HTTP.Paths...)
 				} else {
 					// If a request is routed by a tag-attached hostname instead of the tag header,
 					// the request may not have the tag header "Knative-Serving-Tag",

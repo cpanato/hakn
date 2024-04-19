@@ -28,7 +28,7 @@ import (
 	v1 "k8s.io/client-go/informers/core/v1"
 	"k8s.io/client-go/tools/cache"
 
-	"knative.dev/control-protocol/pkg/certificates"
+	"knative.dev/networking/pkg/certificates"
 	netcfg "knative.dev/networking/pkg/config"
 	"knative.dev/pkg/controller"
 	secretinformer "knative.dev/pkg/injection/clients/namespacedkube/informers/core/v1/secret"
@@ -56,7 +56,7 @@ func NewCertCache(ctx context.Context) *CertCache {
 		logger:         logging.FromContext(ctx),
 	}
 
-	secret, err := cr.secretInformer.Lister().Secrets(system.Namespace()).Get(netcfg.ServingInternalCertName)
+	secret, err := cr.secretInformer.Lister().Secrets(system.Namespace()).Get(netcfg.ServingRoutingCertName)
 	if err != nil {
 		cr.logger.Warnw("failed to get secret", zap.Error(err))
 		return nil
@@ -65,7 +65,7 @@ func NewCertCache(ctx context.Context) *CertCache {
 	cr.updateCache(secret)
 
 	secretInformer.Informer().AddEventHandler(cache.FilteringResourceEventHandler{
-		FilterFunc: controller.FilterWithNameAndNamespace(system.Namespace(), netcfg.ServingInternalCertName),
+		FilterFunc: controller.FilterWithNameAndNamespace(system.Namespace(), netcfg.ServingRoutingCertName),
 		Handler: cache.ResourceEventHandlerFuncs{
 			UpdateFunc: cr.handleCertificateUpdate,
 			AddFunc:    cr.handleCertificateAdd,
@@ -103,7 +103,7 @@ func (cr *CertCache) updateCache(secret *corev1.Secret) {
 
 	cr.TLSConf.RootCAs = pool
 	cr.TLSConf.ServerName = certificates.LegacyFakeDnsName
-	cr.TLSConf.MinVersion = tls.VersionTLS12
+	cr.TLSConf.MinVersion = tls.VersionTLS13
 }
 
 func (cr *CertCache) handleCertificateUpdate(_, new interface{}) {

@@ -18,6 +18,7 @@ package sharedmain
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"net/http"
@@ -29,10 +30,11 @@ import (
 	"go.opencensus.io/plugin/ochttp"
 	"go.uber.org/automaxprocs/maxprocs"
 	"go.uber.org/zap"
+	"knative.dev/serving/pkg/queue/certificate"
 
 	"k8s.io/apimachinery/pkg/types"
 
-	"knative.dev/control-protocol/pkg/certificates"
+	"knative.dev/networking/pkg/certificates"
 	netstats "knative.dev/networking/pkg/http/stats"
 	pkglogging "knative.dev/pkg/logging"
 	"knative.dev/pkg/logging/logkey"
@@ -94,8 +96,9 @@ type config struct {
 	ServingEnableProbeRequestLog bool   `split_words:"true"` // optional
 
 	// Metrics configuration
-	ServingRequestMetricsBackend string `split_words:"true"` // optional
-	MetricsCollectorAddress      string `split_words:"true"` // optional
+	ServingRequestMetricsBackend                string `split_words:"true"` // optional
+	ServingRequestMetricsReportingPeriodSeconds int    `split_words:"true"` // optional
+	MetricsCollectorAddress                     string `split_words:"true"` // optional
 
 	// Tracing configuration
 	TracingConfigDebug          bool                      `split_words:"true"` // optional
@@ -244,16 +247,22 @@ func Main(opts ...Option) error {
 		httpServers["profile"] = profiling.NewServer(profiling.NewHandler(logger, true))
 	}
 
-	tlsServers := map[string]*http.Server{
-		"main":  mainServer(":"+env.QueueServingTLSPort, mainHandler),
-		"admin": adminServer(":"+strconv.Itoa(networking.QueueAdminPort), adminHandler),
-	}
+	tlsServers := make(map[string]*http.Server)
+	var certWatcher *certificate.CertWatcher
+	var err error
 
 	if tlsEnabled {
+		tlsServers["main"] = mainServer(":"+env.QueueServingTLSPort, mainHandler)
+		tlsServers["admin"] = adminServer(":"+strconv.Itoa(networking.QueueAdminPort), adminHandler)
+
+		certWatcher, err = certificate.NewCertWatcher(certPath, keyPath, 1*time.Minute, logger)
+		if err != nil {
+			logger.Fatal("failed to create certWatcher", zap.Error(err))
+		}
+		defer certWatcher.Stop()
+
 		// Drop admin http server since the admin TLS server is listening on the same port
 		delete(httpServers, "admin")
-	} else {
-		tlsServers = map[string]*http.Server{}
 	}
 
 	logger.Info("Starting queue-proxy")
@@ -270,9 +279,13 @@ func Main(opts ...Option) error {
 	}
 	for name, server := range tlsServers {
 		go func(name string, s *http.Server) {
-			// Don't forward ErrServerClosed as that indicates we're already shutting down.
 			logger.Info("Starting tls server ", name, s.Addr)
-			if err := s.ListenAndServeTLS(certPath, keyPath); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			s.TLSConfig = &tls.Config{
+				GetCertificate: certWatcher.GetCertificate,
+				MinVersion:     tls.VersionTLS13,
+			}
+			// Don't forward ErrServerClosed as that indicates we're already shutting down.
+			if err := s.ListenAndServeTLS("", ""); err != nil && !errors.Is(err, http.ErrServerClosed) {
 				errCh <- fmt.Errorf("%s server failed to serve: %w", name, err)
 			}
 		}(name, server)
@@ -302,6 +315,7 @@ func Main(opts ...Option) error {
 				logger.Errorw("Failed to shutdown server", zap.String("server", name), zap.Error(err))
 			}
 		}
+
 		logger.Info("Shutdown complete, exiting...")
 	}
 	return nil
@@ -366,7 +380,7 @@ func supportsMetrics(ctx context.Context, logger *zap.SugaredLogger, env config)
 	if env.ServingRequestMetricsBackend == "" {
 		return false
 	}
-	if err := setupMetricsExporter(ctx, logger, env.ServingRequestMetricsBackend, env.MetricsCollectorAddress); err != nil {
+	if err := setupMetricsExporter(ctx, logger, env.ServingRequestMetricsBackend, env.ServingRequestMetricsReportingPeriodSeconds, env.MetricsCollectorAddress); err != nil {
 		logger.Errorw("Error setting up request metrics exporter. Request metrics will be unavailable.", zap.Error(err))
 		return false
 	}
@@ -412,7 +426,7 @@ func requestAppMetricsHandler(logger *zap.SugaredLogger, currentHandler http.Han
 	return h
 }
 
-func setupMetricsExporter(ctx context.Context, logger *zap.SugaredLogger, backend string, collectorAddress string) error {
+func setupMetricsExporter(ctx context.Context, logger *zap.SugaredLogger, backend string, reportingPeriod int, collectorAddress string) error {
 	// Set up OpenCensus exporter.
 	// NOTE: We use revision as the component instead of queue because queue is
 	// implementation specific. The current metrics are request relative. Using
@@ -424,8 +438,9 @@ func setupMetricsExporter(ctx context.Context, logger *zap.SugaredLogger, backen
 		Component:      "revision",
 		PrometheusPort: networking.UserQueueMetricsPort,
 		ConfigMap: map[string]string{
-			metrics.BackendDestinationKey: backend,
-			"metrics.opencensus-address":  collectorAddress,
+			metrics.BackendDestinationKey:      backend,
+			"metrics.opencensus-address":       collectorAddress,
+			"metrics.reporting-period-seconds": strconv.Itoa(reportingPeriod),
 		},
 	}
 	return metrics.UpdateExporter(ctx, ops, logger)

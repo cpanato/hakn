@@ -27,7 +27,6 @@ import (
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
 	autoscalingv1alpha1 "knative.dev/serving/pkg/client/clientset/versioned/typed/autoscaling/v1alpha1"
 	servingv1 "knative.dev/serving/pkg/client/clientset/versioned/typed/serving/v1"
-	servingv1alpha1 "knative.dev/serving/pkg/client/clientset/versioned/typed/serving/v1alpha1"
 	servingv1beta1 "knative.dev/serving/pkg/client/clientset/versioned/typed/serving/v1beta1"
 )
 
@@ -36,17 +35,14 @@ type Interface interface {
 	AutoscalingV1alpha1() autoscalingv1alpha1.AutoscalingV1alpha1Interface
 	ServingV1() servingv1.ServingV1Interface
 	ServingV1beta1() servingv1beta1.ServingV1beta1Interface
-	ServingV1alpha1() servingv1alpha1.ServingV1alpha1Interface
 }
 
-// Clientset contains the clients for groups. Each group has exactly one
-// version included in a Clientset.
+// Clientset contains the clients for groups.
 type Clientset struct {
 	*discovery.DiscoveryClient
 	autoscalingV1alpha1 *autoscalingv1alpha1.AutoscalingV1alpha1Client
 	servingV1           *servingv1.ServingV1Client
 	servingV1beta1      *servingv1beta1.ServingV1beta1Client
-	servingV1alpha1     *servingv1alpha1.ServingV1alpha1Client
 }
 
 // AutoscalingV1alpha1 retrieves the AutoscalingV1alpha1Client
@@ -62,11 +58,6 @@ func (c *Clientset) ServingV1() servingv1.ServingV1Interface {
 // ServingV1beta1 retrieves the ServingV1beta1Client
 func (c *Clientset) ServingV1beta1() servingv1beta1.ServingV1beta1Interface {
 	return c.servingV1beta1
-}
-
-// ServingV1alpha1 retrieves the ServingV1alpha1Client
-func (c *Clientset) ServingV1alpha1() servingv1alpha1.ServingV1alpha1Interface {
-	return c.servingV1alpha1
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -125,10 +116,6 @@ func NewForConfigAndClient(c *rest.Config, httpClient *http.Client) (*Clientset,
 	if err != nil {
 		return nil, err
 	}
-	cs.servingV1alpha1, err = servingv1alpha1.NewForConfigAndClient(&configShallowCopy, httpClient)
-	if err != nil {
-		return nil, err
-	}
 
 	cs.DiscoveryClient, err = discovery.NewDiscoveryClientForConfigAndClient(&configShallowCopy, httpClient)
 	if err != nil {
@@ -153,7 +140,6 @@ func New(c rest.Interface) *Clientset {
 	cs.autoscalingV1alpha1 = autoscalingv1alpha1.New(c)
 	cs.servingV1 = servingv1.New(c)
 	cs.servingV1beta1 = servingv1beta1.New(c)
-	cs.servingV1alpha1 = servingv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs
