@@ -28,7 +28,7 @@ import (
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"knative.dev/control-protocol/pkg/certificates"
+	"knative.dev/networking/pkg/certificates"
 	"knative.dev/pkg/kmeta"
 	"knative.dev/pkg/kmp"
 	"knative.dev/pkg/logging"
@@ -203,7 +203,7 @@ func hasDeploymentTimedOut(deployment *appsv1.Deployment) bool {
 func (c *Reconciler) reconcileSecret(ctx context.Context, rev *v1.Revision) error {
 	ns := rev.Namespace
 	logger := logging.FromContext(ctx)
-	logger.Info("Reconciling Secret: ", networking.ServingCertName, " at namespace: ", ns)
+	logger.Info("Reconciling Secret for system-internal-tls: ", networking.ServingCertName, " at namespace: ", ns)
 
 	secret, err := c.kubeclient.CoreV1().Secrets(ns).Get(ctx, networking.ServingCertName, metav1.GetOptions{})
 	if apierrs.IsNotFound(err) {
